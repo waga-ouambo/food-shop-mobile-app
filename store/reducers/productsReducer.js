@@ -16,8 +16,7 @@ export default (state = initialState, action) =>{
                 availableProducts: action.products,
                 userProducts: action.userProducts
             }
-        case DELETE_PRODUCT:  
-        console.log(action.pid);
+        case DELETE_PRODUCT:   
         return {
             ...state,
             userProducts: state.userProducts.filter(product => product.id !== action.pid),
@@ -27,6 +26,7 @@ export default (state = initialState, action) =>{
                 const newProduct = new Product(
                     action.productData.id, 
                     action.productData.ownerId,
+                    action.productData.pushToken,
                     action.productData.title, 
                     action.productData.imageUrl, 
                     action.productData.description, 
@@ -48,6 +48,7 @@ export default (state = initialState, action) =>{
         const updatedProduct = new Product(
             action.pid,
             state.userProducts[userProductsIndex].ownerId,
+            state.userProducts[userProductsIndex].pushToken,
             action.productData.title,
             action.productData.imageUrl,
             action.productData.description,

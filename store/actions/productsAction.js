@@ -7,8 +7,14 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 
+import * as permissionsToken from '../permissions';
+
+
+
+
 export const fetchProducts = () => {
-    return async (dispatch, getState)  => {
+    return async (dispatch, getState)  => { 
+        
         const userId = getState().auth.userId;
         try {
             const response  = await axios.get('https://rn-project-backend-default-rtdb.firebaseio.com/products.json');
@@ -20,14 +26,15 @@ export const fetchProducts = () => {
             loadedProducts.push(new Product(
                 key,
                 resData[key].ownerId,
+                resData[key].ownerPushToken, 
                 resData[key].title,
                 resData[key].imageUrl,
                 resData[key].description,
                 resData[key].price,
 
             ))
-        }
-        console.log(loadedProducts);
+        } 
+        
         dispatch({
             type: SET_PRODUCTS, 
             products: loadedProducts, 
@@ -56,8 +63,13 @@ export const deleteProduct = productId  => {
 
 export const createProduct = (title, description, imageUrl, price) => {
     return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const userId = getState().auth.userId;
+
+        try {
+
+            const pushToken = await permissionsToken.getNotificationPermissionsToken();
+
+            const token = getState().auth.token;
+            const userId = getState().auth.userId;
         // Add any async code here
        const response = await axios.post(`https://rn-project-backend-default-rtdb.firebaseio.com/products.json?auth=${token}`,
         // {body: JSON.stringify({
@@ -71,12 +83,12 @@ export const createProduct = (title, description, imageUrl, price) => {
             description,
             imageUrl,
             price,
-            ownerId: userId
+            ownerId: userId,
+            ownerPushToken: pushToken
         }
         );
 
-        const resData = await response.data;
-        console.log(resData);
+        const resData = await response.data; 
 
         dispatch({
             type: CREATE_PRODUCT,
@@ -86,9 +98,15 @@ export const createProduct = (title, description, imageUrl, price) => {
                 description,
                 imageUrl,
                 price,
-                ownerId: userId
+                ownerId: userId,
+                pushToken: pushToken
             } 
         })
+            
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
    
 }
@@ -96,8 +114,7 @@ export const createProduct = (title, description, imageUrl, price) => {
 export const updateProduct = (id, title, description, imageUrl, price) => {
 
     return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        console.log(getState().auth.userId);
+        const token = getState().auth.token; 
         try { 
             const response = await axios.put(`https://rn-project-backend-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`, 
             {

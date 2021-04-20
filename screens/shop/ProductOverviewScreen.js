@@ -37,6 +37,7 @@ const ProductOverviewScreen = props => {
             setIsRefreshing(false); 
         } 
     }, [dispatch, setIsLoading, setError]);
+    
 
 
     useEffect(() => {
@@ -51,13 +52,7 @@ const ProductOverviewScreen = props => {
         });
     }, [dispatch, loadProducts]);
 
-
-    var date = new Date(); 
-    console.log(date);
-    var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-    console.log(new Date(now_utc));
+ 
 
 
     if(error){
@@ -92,6 +87,7 @@ const ProductOverviewScreen = props => {
             image={itemData.item.imageUrl} 
             title={itemData.item.title} 
             price={itemData.item.price} 
+            ownerPushToken={itemData.item.ownerPushToken} 
             onSelect= {() => {
                 console.log('onSelect');
                 selectItemHandler(itemData.item.id, itemData.item.title)

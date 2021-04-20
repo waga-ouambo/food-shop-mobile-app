@@ -11,7 +11,7 @@ const ProductDetailScreen = props => {
     const productId = props.navigation.getParam('productId'); 
     const selectedProduct = useSelector(state => 
         state.products.availableProducts.find(prod => prod.id === productId ));
-
+        
     const dispatch =  useDispatch();
 
     return <ScrollView>

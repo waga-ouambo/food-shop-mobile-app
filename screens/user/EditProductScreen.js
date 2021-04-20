@@ -52,8 +52,7 @@ const EditProductScreen = props => {
     }) 
     
 
-    const submitHandler = useCallback( async (values, actions) => {
-        console.log(values.description);
+    const submitHandler = useCallback( async (values, actions) => { 
         setError(null);
         setIsLoading(true);
         try { 

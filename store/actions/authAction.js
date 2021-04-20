@@ -15,8 +15,7 @@ export const authenticate = (token, userId) => {
 export const signup = (email, password) => { 
 
     return async dispatch => {
-        try {
-            console.log(email, password);
+        try { 
             const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDPWtzQhWRoqd54l3CXoLbtBEy2llb_kRg',
             {
                 email: email,
@@ -42,10 +41,9 @@ export const signup = (email, password) => {
 }
 
 export const login = (email, password) => { 
-
+    console.log(email, password);
     return async dispatch => {
-        try {
-            console.log(email, password);
+        try { 
             const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDPWtzQhWRoqd54l3CXoLbtBEy2llb_kRg',
             {
                 email: email,
@@ -74,6 +72,7 @@ export const login = (email, password) => {
             // console.log(error.message);
             // }
             // console.log(error.response); 
+            console.log(error); 
             const msg = error.response.data.error.message;
             throw new Error(msg);
         }
@@ -90,5 +89,6 @@ const saveDataStorage = (token, userId, expirationDate) => {
 }
 
 export const logout = () => {
+    AsyncStorage.removeItem('userData');
     return {type: LOGOUT}
 }

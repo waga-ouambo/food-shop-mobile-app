@@ -1,6 +1,7 @@
 import axios from "axios";
 import Order from "../../models/order";
 import dayjs from "dayjs";
+import CartItem from "../../components/shop/CartItem";
 
 export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDERS = 'SET_ORDERS';
@@ -41,9 +42,11 @@ export const fetchOrders = () => {
 export const addOrder = (cartItems, totalAmount) => {
     return async (dispatch, getState) => {
         const date = new Date();
+        const token = getState().auth.token;
         const userId = getState().auth.userId;
         try {
-            const response = await  axios.post(`https://rn-project-backend-default-rtdb.firebaseio.com/orders/${userId}.json`, 
+            console.log(totalAmount);
+            const response = await  axios.post(`https://rn-project-backend-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`, 
             {
                 cartItems,
                 totalAmount,
@@ -61,7 +64,21 @@ export const addOrder = (cartItems, totalAmount) => {
                     date: date
                  }
             })
+
+            for(const cartItem of cartItems){
+                const pushToken = cartItem.productPushToken;
+                console.log(cartItem);
+                 axios.post('https://exp.host/--/api/v2/push/send', 
+                    {
+                        to: pushToken,  
+                        title: 'Order was placed!',
+                        body:  cartItem.productTitle
+                    } 
+                );
+            }
+
         } catch (error) {
+            console.log(error);
             throw error
         }
         
