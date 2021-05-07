@@ -72,7 +72,8 @@ export const addOrder = (cartItems, totalAmount) => {
                     {
                         to: pushToken,  
                         title: 'Order was placed!',
-                        body:  cartItem.productTitle
+                        body:  cartItem.productTitle,
+                        sound: 'default'
                     } 
                 );
             }

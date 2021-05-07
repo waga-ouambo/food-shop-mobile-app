@@ -116,7 +116,7 @@ export const updateProduct = (id, title, description, imageUrl, price) => {
     return async (dispatch, getState) => {
         const token = getState().auth.token; 
         try { 
-            const response = await axios.put(`https://rn-project-backend-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`, 
+            const response = await axios.patch(`https://rn-project-backend-default-rtdb.firebaseio.com/products/${id}.json?auth=${token}`, 
             {
                 title,
                 description,
@@ -140,6 +140,7 @@ export const updateProduct = (id, title, description, imageUrl, price) => {
         })
             
         } catch (error) {
+            console.log(error);
             throw error ; 
         } 
             

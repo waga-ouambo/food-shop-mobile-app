@@ -28,3 +28,10 @@ export const getNotificationPermissionsToken = async  () => {
       throw error;
     } 
 } 
+
+const backgroundSubscription = Notification.addNotificationResponseReceivedListener(response => {
+  console.log(response);
+})
+const foregroundSubscription = Notification.addNotificationReceivedListener(notification => {
+  console.log(notification);
+})

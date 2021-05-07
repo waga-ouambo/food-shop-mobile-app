@@ -57,7 +57,8 @@ export default (state = initialState, action) =>{
 
         const updatedAvailableProduct = new Product(
             action.pid,
-            state.availableProducts[userProductsIndex].ownerId,
+            state.availableProducts[availableProductsIndex].ownerId,
+            state.availableProducts[availableProductsIndex].pushToken,
             action.productData.title,
             action.productData.imageUrl,
             action.productData.description,

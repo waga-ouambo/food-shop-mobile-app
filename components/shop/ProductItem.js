@@ -11,7 +11,8 @@ const ProductItem = props => {
         TouchableCmp = TouchableNativeFeedback
     }
 
-
+    console.log('props.price');
+    console.log(props.price);
     return <Card onSelect={props.onSelect} style={styles.product} useForeGround> 
                 <View style={styles.imageContainer}>
                     <Image style={styles.image} source={{uri: props.image}}/>

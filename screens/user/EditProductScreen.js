@@ -15,8 +15,8 @@ import Colors from '../../constants/Color';
 const EditProductScreen = props => {
     const prodId = props.navigation.getParam('productId');
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId 
-    ) );
-
+    ) ); 
+    
 
     const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
     const [imageUrl, setImageUrl] = useState(editedProduct? editedProduct.imageUrl : '');
@@ -41,13 +41,12 @@ const EditProductScreen = props => {
         price: Yup.number()
         .required("price is required")
         .typeError('Price must be a number')
-        .positive('age must be greater than zero'),
+        .positive('Price must be greater than zero'),
     
         description: Yup.string()
         .trim()
         .required('description is required !')
-        .min(4, "description must be 4 characters at minimum"),
-    
+        .min(4, "description must be 4 characters at minimum"), 
        
     }) 
     
@@ -107,6 +106,7 @@ const EditProductScreen = props => {
             { ({ handleChange, handleSubmit, handleBlur, values, errors, isValid, touched, dirty }) => 
            {
             useEffect(() => {
+                console.log(editedProduct);
                 console.log('FIRST LOADING !!!')
                 props.navigation.setParams({'submit': handleSubmit});
                 props.navigation.setParams({'isValid': !(dirty && isValid)});
